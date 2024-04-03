@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:sample/widgets/bottom_sheet_content.widget.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
 
+  void openBottomSheet(context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      enableDrag: false,
+      isDismissible: false,
+      builder: (context) => const BottomSheetContent(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text("Welcome"),
+        child: FilledButton(
+          onPressed: () => openBottomSheet(context),
+          child: const Text("Open Bottom Sheet"),
+        ),
       ),
     );
   }
