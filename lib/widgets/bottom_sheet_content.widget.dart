@@ -1,68 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:sample/widgets/expandable_page_view.widget.dart';
 
 class BottomSheetContent extends StatelessWidget {
   const BottomSheetContent({super.key});
 
-  List<Widget> returnBodyWidget() {
-    final List<Widget> widgets = [];
-    for (int i = 0; i < 100; i++) {
-      widgets.add(const Text("Very discrete text"));
-    }
-    return widgets;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SizedBox(
-          height: constraints.maxHeight * 0.9,
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Text(
-                  "Sheet Heading",
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
+    final pageController = PageController();
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(
+        top: 20,
+        left: 20,
+        right: 20,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ExpandablePageView(
+            controller: pageController,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    "Screen 1",
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextButton(
+                    onPressed: () => pageController.nextPage(
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.bounceIn),
+                    child: const Text("Next"),
+                  ),
+                ],
               ),
-              SliverList.builder(
-                itemCount: 100,
-                itemBuilder: (context, index) =>
-                    const Text("Very Discrete Text"),
-              ),
+              Column(
+                children: [
+                  Text(
+                    "Screen 2",
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  const Text("Screen 2 Content"),
+                ],
+              )
             ],
           ),
-        );
-      },
+        ],
+      ),
     );
-    // return SingleChildScrollView(
-    //   controller: scrollController,
-    //   padding: const EdgeInsets.all(20),
-    //   child: SizedBox(
-    //     width: double.infinity,
-    //     child: Expanded(
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    // Text(
-    //   "Sheet Heading",
-    //   style: Theme.of(context).textTheme.headlineLarge,
-    // ),
-    //           const SizedBox(
-    //             height: 50,
-    //           ),
-    //           ListView.builder(
-    //             shrinkWrap: true,
-    //             itemBuilder: (context, index) =>
-    //                 const Text("Very discrete Text"),
-    //             itemCount: 100,
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
-    // },
-    // );
   }
 }

@@ -10,7 +10,6 @@ class App extends StatelessWidget {
       isScrollControlled: true,
       useSafeArea: true,
       enableDrag: false,
-      isDismissible: false,
       builder: (context) => const BottomSheetContent(),
     );
   }
