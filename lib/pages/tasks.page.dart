@@ -21,8 +21,6 @@ class TasksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Tasks: $tasks");
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Tasks"),
