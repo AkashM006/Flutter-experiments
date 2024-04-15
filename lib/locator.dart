@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:sample/data/implementation/tasks_impl.repository.dart';
-import 'package:sample/domain/database.dart';
+import 'package:sample/data/data_source/db/database.dart';
 
 final getIt = GetIt.I;
 

@@ -4,8 +4,8 @@ import 'package:drift/native.dart';
 import 'package:drift/drift.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
-import 'package:sample/domain/dao/tasks.dao.dart';
-import 'package:sample/domain/schema/tasks.schema.dart';
+import 'package:sample/data/data_source/db/dao/tasks.dao.dart';
+import 'package:sample/data/data_source/db/schema/tasks.schema.dart';
 // ignore: depend_on_referenced_packages
 import 'package:sqlite3/sqlite3.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
