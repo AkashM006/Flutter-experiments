@@ -37,8 +37,6 @@ class _NewTaskState extends ConsumerState<NewTask> {
   Widget build(BuildContext context) {
     final tasksController = ref.watch(tasksControllerProvider);
 
-    print("isLoading: ${tasksController.isLoading}");
-
     return SizedBox(
       width: double.infinity,
       child: SingleChildScrollView(
