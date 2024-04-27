@@ -87,6 +87,7 @@ class _NewTaskState extends ConsumerState<NewTask> {
                   if (value == null || value.isEmpty) {
                     return "Description is required";
                   }
+                  return null;
                 },
                 onSaved: (newValue) {
                   _description = newValue!;
