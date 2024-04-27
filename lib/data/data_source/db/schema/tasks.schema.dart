@@ -9,5 +9,7 @@ class Tasks extends Table {
   TextColumn get description => text().withLength(
         max: 500,
       )();
-  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get createdAt => dateTime().clientDefault(
+        () => DateTime.now(),
+      )();
 }

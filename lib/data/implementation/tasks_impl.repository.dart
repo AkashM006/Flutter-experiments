@@ -27,8 +27,7 @@ class TasksRepositoryImpl implements TasksRepository {
 
   @override
   Future<void> addTask(TaskModel task) async {
-    // todo: probably throw error when something bad happens in tasksDao
-    return await db.tasksDao.addTask(task);
+    await db.tasksDao.addTask(task);
   }
 }
 

@@ -19,10 +19,13 @@ class TasksController extends _$TasksController {
 
     await Future.delayed(const Duration(seconds: 5));
 
-    // todo: handle error if anything is thrown from taskRepository
-    state = await AsyncValue.guard(() => taskRepository.addTask(TaskModel(
+    state = await AsyncValue.guard(
+      () => taskRepository.addTask(
+        TaskModel(
           title: title,
           description: description,
-        )));
+        ),
+      ),
+    );
   }
 }

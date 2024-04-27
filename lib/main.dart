@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sample/app.dart';
@@ -6,6 +7,16 @@ import 'package:sample/locator.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
+
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    print("Error $error");
+    return true;
+  };
+
   runApp(
     const ProviderScope(
       child: MyApp(),

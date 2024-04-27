@@ -1,6 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sample/controllers/tasks.controller.dart';
 import 'package:sample/data/implementation/tasks_impl.repository.dart';
 import 'package:flutter/material.dart';
+import 'package:sample/utils/errors.dart';
+import 'package:sample/views/widgets/common/error_dialog.widget.dart';
 import 'package:sample/views/widgets/error.widget.dart';
 import 'package:sample/views/widgets/home/tasks_list.widget.dart';
 import 'package:sample/views/widgets/new_task/new_task.widget.dart';
@@ -12,9 +15,22 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tasksStream = ref.watch(tasksProvider);
 
+    ref.listen(
+      tasksControllerProvider,
+      (previous, next) {
+        if (next is AsyncError) {
+          final error = next.error as AppError;
+          showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(message: error.message),
+          );
+        }
+      },
+    );
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Welcome"),
         shadowColor: Colors.grey,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
