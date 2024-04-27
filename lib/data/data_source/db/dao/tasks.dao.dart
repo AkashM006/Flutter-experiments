@@ -21,9 +21,9 @@ class TasksDao extends DatabaseAccessor<AppDatabase> with _$TasksDaoMixin {
   Future<void> addTask(TaskModel task) async {
     try {
       await into(tasks).insert(TasksCompanion(
-        id: const Value(
-          -1,
-        ), // comment this to test error case, how to throw it and handle it
+        // id: const Value(
+        //   -1,
+        // ), // comment this to test error case, how to throw it and handle it
         title: Value(task.title),
         description: Value(task.description),
       ));

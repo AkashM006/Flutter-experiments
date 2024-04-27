@@ -28,6 +28,8 @@ class _NewTaskState extends ConsumerState<NewTask> {
 
     if (!isValid) return;
 
+    _formKey.currentState!.save();
+
     await ref
         .read(tasksControllerProvider.notifier)
         .addNewTask(_title, _description);
@@ -90,7 +92,7 @@ class _NewTaskState extends ConsumerState<NewTask> {
                   return null;
                 },
                 onSaved: (newValue) {
-                  _description = newValue!;
+                  _description = newValue ?? "";
                 },
               ),
               const SizedBox(

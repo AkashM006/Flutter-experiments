@@ -17,8 +17,6 @@ class TasksController extends _$TasksController {
   Future<void> addNewTask(String title, String description) async {
     state = const AsyncLoading();
 
-    await Future.delayed(const Duration(seconds: 5));
-
     state = await AsyncValue.guard(
       () => taskRepository.addTask(
         TaskModel(

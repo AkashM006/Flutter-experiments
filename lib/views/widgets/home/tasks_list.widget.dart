@@ -11,6 +11,22 @@ class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (tasks.isEmpty) {
+      return Center(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: Text(
+            'You have no tasks. Add one to view it here',
+            textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge!
+                .copyWith(fontStyle: FontStyle.italic),
+          ),
+        ),
+      );
+    }
+
     return ListView.builder(
       itemBuilder: (context, index) => TaskDetail(task: tasks[index]),
       itemCount: tasks.length,
