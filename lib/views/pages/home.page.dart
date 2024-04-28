@@ -24,9 +24,6 @@ class HomePage extends ConsumerWidget {
             context: context,
             builder: (context) => ErrorDialog(message: error.message),
           );
-        } else if (next is AsyncData) {
-          // todo: after doing any action handle it when it is successfull
-          Navigator.of(context).pop();
         }
       },
     );

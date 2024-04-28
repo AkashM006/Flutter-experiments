@@ -14,7 +14,7 @@ class TasksController extends _$TasksController {
   @override
   FutureOr<void> build() {}
 
-  Future<void> addNewTask(String title, String description) async {
+  Future<bool > addNewTask(String title, String description) async {
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(
@@ -25,5 +25,9 @@ class TasksController extends _$TasksController {
         ),
       ),
     );
+
+    if (state is AsyncError) return false;
+
+    return true;
   }
 }
