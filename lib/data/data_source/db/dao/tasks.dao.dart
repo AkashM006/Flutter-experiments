@@ -21,9 +21,6 @@ class TasksDao extends DatabaseAccessor<AppDatabase> with _$TasksDaoMixin {
   Future<void> addTask(TaskModel task) async {
     try {
       await into(tasks).insert(TasksCompanion(
-        // id: const Value(
-        //   -1,
-        // ), // comment this to test error case, how to throw it and handle it
         title: Value(task.title),
         description: Value(task.description),
       ));
@@ -37,5 +34,15 @@ class TasksDao extends DatabaseAccessor<AppDatabase> with _$TasksDaoMixin {
       }
       rethrow;
     }
+  }
+
+  Future<int> removeTask(int id) async {
+    // try {
+    //   return (delete(tasks)..where((tbl) => tbl.id.equals(id))).go();
+    // } catch (error) {
+    throw const AppError(
+      message: "Unable to delete your task it may not exist. Please check",
+    );
+    // }
   }
 }

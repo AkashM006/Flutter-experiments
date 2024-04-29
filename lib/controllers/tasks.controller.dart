@@ -14,7 +14,7 @@ class TasksController extends _$TasksController {
   @override
   FutureOr<void> build() {}
 
-  Future<bool > addNewTask(String title, String description) async {
+  Future<bool> addNewTask(String title, String description) async {
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(
@@ -24,6 +24,18 @@ class TasksController extends _$TasksController {
           description: description,
         ),
       ),
+    );
+
+    if (state is AsyncError) return false;
+
+    return true;
+  }
+
+  Future<bool> removeTask(int id) async {
+    state = const AsyncLoading();
+    // todo: need to handle errors, maybe throw an error if no item is deleted
+    state = await AsyncValue.guard(
+      () => tasksRepository.removeTask(id),
     );
 
     if (state is AsyncError) return false;

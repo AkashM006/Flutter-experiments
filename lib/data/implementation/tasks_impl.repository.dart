@@ -29,6 +29,11 @@ class TasksRepositoryImpl implements TasksRepository {
   Future<void> addTask(TaskModel task) async {
     await db.tasksDao.addTask(task);
   }
+
+  @override
+  Future<int> removeTask(int id) async {
+    return await db.tasksDao.removeTask(id);
+  }
 }
 
 @riverpod
