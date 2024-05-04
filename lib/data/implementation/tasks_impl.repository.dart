@@ -3,6 +3,8 @@ import 'package:sample/data/data_source/db/database.dart';
 import 'package:sample/domain/task.model.dart';
 import 'package:sample/locator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:sample/utils/functions/safe_execute.dart';
 
 part 'tasks_impl.repository.g.dart';
 
@@ -26,8 +28,8 @@ class TasksRepositoryImpl implements TasksRepository {
   }
 
   @override
-  Future<void> addTask(TaskModel task) async {
-    await db.tasksDao.addTask(task);
+  Future<Either<String, void>> addTask(TaskModel task) async {
+    return safeExecute<void>(() => db.tasksDao.addTask(task));
   }
 
   @override

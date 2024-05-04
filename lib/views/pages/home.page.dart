@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sample/controllers/tasks.controller.dart';
 import 'package:sample/data/implementation/tasks_impl.repository.dart';
 import 'package:flutter/material.dart';
-import 'package:sample/utils/errors.dart';
+import 'package:sample/utils/classes/errors.dart';
 import 'package:sample/views/widgets/common/error_dialog.widget.dart';
 import 'package:sample/views/widgets/error.widget.dart';
 import 'package:sample/views/widgets/home/tasks_list.widget.dart';

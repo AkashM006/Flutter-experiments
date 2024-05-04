@@ -30,16 +30,9 @@ class _NewTaskState extends ConsumerState<NewTask> {
 
     _formKey.currentState!.save();
 
-    final result = await ref
+    await ref
         .read(tasksControllerProvider.notifier)
         .addNewTask(_title, _description);
-
-    if (result && mounted) {
-      Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Task added successfully")),
-      );
-    }
   }
 
   @override

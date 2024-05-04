@@ -1,7 +1,8 @@
+import 'package:fpdart/fpdart.dart';
 import 'package:sample/domain/task.model.dart';
 
 abstract class TasksRepository {
   Stream<List<TaskModel>> watchTasks();
-  Future<void> addTask(TaskModel task);
+  Future<Either<String, void>> addTask(TaskModel task);
   Future<int> removeTask(int id);
 }

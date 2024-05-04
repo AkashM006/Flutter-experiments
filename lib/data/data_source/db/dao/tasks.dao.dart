@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:sample/data/data_source/db/database.dart';
 import 'package:sample/data/data_source/db/schema/tasks.schema.dart';
 import 'package:sample/domain/task.model.dart';
-import 'package:sample/utils/errors.dart';
+import 'package:sample/utils/classes/errors.dart';
 
 part 'tasks.dao.g.dart';
 

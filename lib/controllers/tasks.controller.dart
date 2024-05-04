@@ -14,21 +14,28 @@ class TasksController extends _$TasksController {
   @override
   FutureOr<void> build() {}
 
-  Future<bool> addNewTask(String title, String description) async {
+  Future<void> addNewTask(String title, String description) async {
     state = const AsyncLoading();
 
-    state = await AsyncValue.guard(
-      () => taskRepository.addTask(
-        TaskModel(
-          title: title,
-          description: description,
-        ),
+    // state = await AsyncValue.guard(
+    //   () => taskRepository.addTask(
+    //     TaskModel(
+    //       title: title,
+    //       description: description,
+    //     ),
+    //   ),
+    // );
+
+    final result = await taskRepository.addTask(
+      TaskModel(
+        title: title,
+        description: description,
       ),
     );
 
-    if (state is AsyncError) return false;
+    print("Result: $result");
 
-    return true;
+    result.fold((l) => null, (r) => null);
   }
 
   Future<bool> removeTask(int id) async {
