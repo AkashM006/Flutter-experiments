@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tasks.controller.dart';
+part of 'tasks_impl.controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$tasksControllerHash() => r'09509d51b9563a53a989ac9a4aa6bdc6b534f8e9';
+String _$tasksControllerImplHash() =>
+    r'e1bd08f4d6541566d081a84ebda134425b730b39';
 
-/// See also [TasksController].
-@ProviderFor(TasksController)
-final tasksControllerProvider =
-    AutoDisposeAsyncNotifierProvider<TasksController, void>.internal(
-  TasksController.new,
-  name: r'tasksControllerProvider',
+/// See also [TasksControllerImpl].
+@ProviderFor(TasksControllerImpl)
+final tasksControllerImplProvider = AutoDisposeNotifierProvider<
+    TasksControllerImpl, TasksControllerState>.internal(
+  TasksControllerImpl.new,
+  name: r'tasksControllerImplProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$tasksControllerHash,
+      : _$tasksControllerImplHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$TasksController = AutoDisposeAsyncNotifier<void>;
+typedef _$TasksControllerImpl = AutoDisposeNotifier<TasksControllerState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

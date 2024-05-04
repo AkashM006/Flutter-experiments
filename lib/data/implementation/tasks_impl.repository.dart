@@ -33,8 +33,8 @@ class TasksRepositoryImpl implements TasksRepository {
   }
 
   @override
-  Future<int> removeTask(int id) async {
-    return await db.tasksDao.removeTask(id);
+  Future<Either<String, void>> removeTask(int id) async {
+    return safeExecute(() => db.tasksDao.removeTask(id));
   }
 }
 

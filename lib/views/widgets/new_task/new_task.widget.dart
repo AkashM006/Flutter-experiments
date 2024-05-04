@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sample/controllers/tasks.controller.dart';
+import 'package:sample/controllers/implmentation/tasks_impl.controller.dart';
+import 'package:sample/utils/enums/controller_states.dart';
 
 void showNewTaskForm(BuildContext context) {
   showModalBottomSheet(
-      context: context,
-      builder: (context) => const NewTask(),
-      isScrollControlled: true,
-      useSafeArea: true);
+    context: context,
+    builder: (context) => const NewTask(),
+    isScrollControlled: true,
+    useSafeArea: true,
+  );
 }
 
 class NewTask extends ConsumerStatefulWidget {
@@ -31,13 +33,41 @@ class _NewTaskState extends ConsumerState<NewTask> {
     _formKey.currentState!.save();
 
     await ref
-        .read(tasksControllerProvider.notifier)
-        .addNewTask(_title, _description);
+        .read(tasksControllerImplProvider.notifier)
+        .addTask(_title, _description);
   }
 
   @override
   Widget build(BuildContext context) {
-    final tasksController = ref.watch(tasksControllerProvider);
+    final tasksController = ref.watch(tasksControllerImplProvider);
+
+    final bool isAddTaskLoading = tasksController.addTasksState.isLoading;
+
+    ref.listen(
+      tasksControllerImplProvider,
+      (previous, next) {
+        switch (next.addTasksState.status) {
+          case ControllerStatus.success:
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Successfully Added the task")),
+            );
+            Navigator.of(context).pop();
+            break;
+          case ControllerStatus.failure:
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                behavior: SnackBarBehavior.floating,
+                content: Text(
+                  "Something went wrong when trying to create a new task. Please try again later!",
+                ),
+              ),
+            );
+            break;
+          default:
+            break;
+        }
+      },
+    );
 
     return SizedBox(
       width: double.infinity,
@@ -65,7 +95,7 @@ class _NewTaskState extends ConsumerState<NewTask> {
                   border: OutlineInputBorder(),
                   label: Text("Title"),
                 ),
-                enabled: !tasksController.isLoading,
+                enabled: !isAddTaskLoading,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Title is required";
@@ -84,7 +114,7 @@ class _NewTaskState extends ConsumerState<NewTask> {
                   border: OutlineInputBorder(),
                   label: Text("Description"),
                 ),
-                enabled: !tasksController.isLoading,
+                enabled: !isAddTaskLoading,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Description is required";
@@ -99,7 +129,7 @@ class _NewTaskState extends ConsumerState<NewTask> {
                 height: 20,
               ),
               FilledButton(
-                onPressed: tasksController.isLoading ? null : handleSubmit,
+                onPressed: isAddTaskLoading ? null : handleSubmit,
                 child: const Text("Submit"),
               ),
             ],

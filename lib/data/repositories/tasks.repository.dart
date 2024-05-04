@@ -4,5 +4,5 @@ import 'package:sample/domain/task.model.dart';
 abstract class TasksRepository {
   Stream<List<TaskModel>> watchTasks();
   Future<Either<String, void>> addTask(TaskModel task);
-  Future<int> removeTask(int id);
+  Future<Either<String, void>> removeTask(int id);
 }

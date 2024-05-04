@@ -36,13 +36,13 @@ class TasksDao extends DatabaseAccessor<AppDatabase> with _$TasksDaoMixin {
     }
   }
 
-  Future<int> removeTask(int id) async {
-    // try {
-    //   return (delete(tasks)..where((tbl) => tbl.id.equals(id))).go();
-    // } catch (error) {
-    throw const AppError(
-      message: "Unable to delete your task it may not exist. Please check",
-    );
-    // }
+  Future<void> removeTask(int id) async {
+    try {
+      (delete(tasks)..where((tbl) => tbl.id.equals(id))).go();
+    } catch (error) {
+      throw const AppError(
+        message: "Unable to delete your task it may not exist. Please check",
+      );
+    }
   }
 }

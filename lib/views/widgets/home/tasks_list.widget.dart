@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sample/domain/task.model.dart';
 import 'package:sample/views/widgets/home/task_detail.widget.dart';
 
@@ -27,9 +28,13 @@ class TasksList extends StatelessWidget {
       );
     }
 
-    return ListView.builder(
-      itemBuilder: (context, index) => TaskDetail(task: tasks[index]),
-      itemCount: tasks.length,
+    return SlidableAutoCloseBehavior(
+      closeWhenOpened: true,
+      closeWhenTapped: true,
+      child: ListView.builder(
+        itemBuilder: (context, index) => TaskDetail(task: tasks[index]),
+        itemCount: tasks.length,
+      ),
     );
   }
 }
