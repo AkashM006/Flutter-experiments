@@ -32,7 +32,7 @@ class TasksList extends StatelessWidget {
       closeWhenOpened: true,
       closeWhenTapped: true,
       child: ListView.builder(
-        itemBuilder: (context, index) => TaskDetail(task: tasks[index]),
+        itemBuilder: (context, index) => TaskDetailItem(task: tasks[index]),
         itemCount: tasks.length,
       ),
     );

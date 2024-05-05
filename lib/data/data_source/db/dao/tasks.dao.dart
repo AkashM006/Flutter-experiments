@@ -18,6 +18,10 @@ class TasksDao extends DatabaseAccessor<AppDatabase> with _$TasksDaoMixin {
     return await (select(tasks)).get();
   }
 
+  Future<Task> getTask(int id) async {
+    return await (select(tasks)..where((tbl) => tbl.id.equals(id))).getSingle();
+  }
+
   Future<void> addTask(TaskModel task) async {
     try {
       await into(tasks).insert(TasksCompanion(
@@ -33,6 +37,29 @@ class TasksDao extends DatabaseAccessor<AppDatabase> with _$TasksDaoMixin {
         throw DataMigrationError(fields: errorFields);
       }
       rethrow;
+    }
+  }
+
+  Future<void> updateTask(TaskModel newTask) async {
+    try {
+      final result = await (update(tasks)
+            ..where((tbl) => tbl.id.equals(newTask.id)))
+          .write(
+        TasksCompanion(
+          title: Value(newTask.title),
+          description: Value(newTask.description),
+        ),
+      );
+      if (result == 0) {
+        throw const AppError(
+          message: "Unable to update the task. Please try again later",
+        );
+      }
+    } catch (e) {
+      if (e is AppError) rethrow;
+      throw const AppError(
+        message: "Unable to update the task. Please try again later",
+      );
     }
   }
 

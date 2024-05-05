@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TasksControllerState {
   ControllerState get addTasksState => throw _privateConstructorUsedError;
+  ControllerState get updateTaskState => throw _privateConstructorUsedError;
   ControllerState get removeTaskState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,9 +31,13 @@ abstract class $TasksControllerStateCopyWith<$Res> {
           $Res Function(TasksControllerState) then) =
       _$TasksControllerStateCopyWithImpl<$Res, TasksControllerState>;
   @useResult
-  $Res call({ControllerState addTasksState, ControllerState removeTaskState});
+  $Res call(
+      {ControllerState addTasksState,
+      ControllerState updateTaskState,
+      ControllerState removeTaskState});
 
   $ControllerStateCopyWith<$Res> get addTasksState;
+  $ControllerStateCopyWith<$Res> get updateTaskState;
   $ControllerStateCopyWith<$Res> get removeTaskState;
 }
 
@@ -51,12 +56,17 @@ class _$TasksControllerStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? addTasksState = null,
+    Object? updateTaskState = null,
     Object? removeTaskState = null,
   }) {
     return _then(_value.copyWith(
       addTasksState: null == addTasksState
           ? _value.addTasksState
           : addTasksState // ignore: cast_nullable_to_non_nullable
+              as ControllerState,
+      updateTaskState: null == updateTaskState
+          ? _value.updateTaskState
+          : updateTaskState // ignore: cast_nullable_to_non_nullable
               as ControllerState,
       removeTaskState: null == removeTaskState
           ? _value.removeTaskState
@@ -70,6 +80,14 @@ class _$TasksControllerStateCopyWithImpl<$Res,
   $ControllerStateCopyWith<$Res> get addTasksState {
     return $ControllerStateCopyWith<$Res>(_value.addTasksState, (value) {
       return _then(_value.copyWith(addTasksState: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ControllerStateCopyWith<$Res> get updateTaskState {
+    return $ControllerStateCopyWith<$Res>(_value.updateTaskState, (value) {
+      return _then(_value.copyWith(updateTaskState: value) as $Val);
     });
   }
 
@@ -90,10 +108,15 @@ abstract class _$$TasksControllerStateImplCopyWith<$Res>
       __$$TasksControllerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ControllerState addTasksState, ControllerState removeTaskState});
+  $Res call(
+      {ControllerState addTasksState,
+      ControllerState updateTaskState,
+      ControllerState removeTaskState});
 
   @override
   $ControllerStateCopyWith<$Res> get addTasksState;
+  @override
+  $ControllerStateCopyWith<$Res> get updateTaskState;
   @override
   $ControllerStateCopyWith<$Res> get removeTaskState;
 }
@@ -110,12 +133,17 @@ class __$$TasksControllerStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? addTasksState = null,
+    Object? updateTaskState = null,
     Object? removeTaskState = null,
   }) {
     return _then(_$TasksControllerStateImpl(
       addTasksState: null == addTasksState
           ? _value.addTasksState
           : addTasksState // ignore: cast_nullable_to_non_nullable
+              as ControllerState,
+      updateTaskState: null == updateTaskState
+          ? _value.updateTaskState
+          : updateTaskState // ignore: cast_nullable_to_non_nullable
               as ControllerState,
       removeTaskState: null == removeTaskState
           ? _value.removeTaskState
@@ -130,6 +158,7 @@ class __$$TasksControllerStateImplCopyWithImpl<$Res>
 class _$TasksControllerStateImpl implements _TasksControllerState {
   const _$TasksControllerStateImpl(
       {this.addTasksState = const ControllerState(),
+      this.updateTaskState = const ControllerState(),
       this.removeTaskState = const ControllerState()});
 
   @override
@@ -137,11 +166,14 @@ class _$TasksControllerStateImpl implements _TasksControllerState {
   final ControllerState addTasksState;
   @override
   @JsonKey()
+  final ControllerState updateTaskState;
+  @override
+  @JsonKey()
   final ControllerState removeTaskState;
 
   @override
   String toString() {
-    return 'TasksControllerState(addTasksState: $addTasksState, removeTaskState: $removeTaskState)';
+    return 'TasksControllerState(addTasksState: $addTasksState, updateTaskState: $updateTaskState, removeTaskState: $removeTaskState)';
   }
 
   @override
@@ -151,12 +183,15 @@ class _$TasksControllerStateImpl implements _TasksControllerState {
             other is _$TasksControllerStateImpl &&
             (identical(other.addTasksState, addTasksState) ||
                 other.addTasksState == addTasksState) &&
+            (identical(other.updateTaskState, updateTaskState) ||
+                other.updateTaskState == updateTaskState) &&
             (identical(other.removeTaskState, removeTaskState) ||
                 other.removeTaskState == removeTaskState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, addTasksState, removeTaskState);
+  int get hashCode =>
+      Object.hash(runtimeType, addTasksState, updateTaskState, removeTaskState);
 
   @JsonKey(ignore: true)
   @override
@@ -170,10 +205,13 @@ class _$TasksControllerStateImpl implements _TasksControllerState {
 abstract class _TasksControllerState implements TasksControllerState {
   const factory _TasksControllerState(
       {final ControllerState addTasksState,
+      final ControllerState updateTaskState,
       final ControllerState removeTaskState}) = _$TasksControllerStateImpl;
 
   @override
   ControllerState get addTasksState;
+  @override
+  ControllerState get updateTaskState;
   @override
   ControllerState get removeTaskState;
   @override

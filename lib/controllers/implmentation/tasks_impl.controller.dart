@@ -56,4 +56,20 @@ class TasksControllerImpl extends _$TasksControllerImpl
       ),
     );
   }
+
+  @override
+  Future<void> updateTask(TaskModel newTask) async {
+    state = state.copyWith(updateTaskState: state.updateTaskState.setLoading());
+
+    final result = await tasksRepository.updateTask(newTask);
+
+    state = result.fold(
+      (l) => state.copyWith(
+        updateTaskState: state.updateTaskState.setFailure(l),
+      ),
+      (r) => state.copyWith(
+        updateTaskState: state.updateTaskState.setSuccess(null),
+      ),
+    );
+  }
 }

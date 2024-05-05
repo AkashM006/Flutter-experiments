@@ -7,7 +7,7 @@ part of 'tasks_impl.controller.dart';
 // **************************************************************************
 
 String _$tasksControllerImplHash() =>
-    r'e1bd08f4d6541566d081a84ebda134425b730b39';
+    r'9ea0160573d242f4242b976395d3616112e3f758';
 
 /// See also [TasksControllerImpl].
 @ProviderFor(TasksControllerImpl)

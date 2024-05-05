@@ -36,9 +36,29 @@ class TasksRepositoryImpl implements TasksRepository {
   Future<Either<String, void>> removeTask(int id) async {
     return safeExecute(() => db.tasksDao.removeTask(id));
   }
+
+  @override
+  Future<TaskModel> getTask(int id) async {
+    final task = await db.tasksDao.getTask(id);
+    return TaskModel(
+      id: task.id,
+      title: task.title,
+      description: task.description,
+    );
+  }
+
+  @override
+  Future<Either<String, void>> updateTask(TaskModel newTask) {
+    return safeExecute(() => db.tasksDao.updateTask(newTask));
+  }
 }
 
 @riverpod
 Stream<List<TaskModel>> tasks(TasksRef ref) {
   return tasksRepository.watchTasks();
+}
+
+@riverpod
+Future<TaskModel> singleTask(SingleTaskRef ref, int id) {
+  return tasksRepository.getTask(id);
 }

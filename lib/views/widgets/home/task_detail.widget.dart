@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sample/controllers/implmentation/tasks_impl.controller.dart';
 import 'package:sample/domain/task.model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:sample/views/pages/detail.page.dart';
 
-class TaskDetail extends ConsumerWidget {
-  const TaskDetail({
+class TaskDetailItem extends ConsumerWidget {
+  const TaskDetailItem({
     super.key,
     required this.task,
   });
@@ -19,6 +20,16 @@ class TaskDetail extends ConsumerWidget {
 
     void handleDelete(BuildContext context) async {
       await ref.read(tasksControllerImplProvider.notifier).removeTask(task.id);
+    }
+
+    void tapHandler() {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => DetailPage(
+            taskId: task.id,
+          ),
+        ),
+      );
     }
 
     return Slidable(
@@ -41,6 +52,7 @@ class TaskDetail extends ConsumerWidget {
       child: ListTile(
         title: Text(task.title),
         subtitle: Text(task.description),
+        onTap: tapHandler,
       ),
     );
   }
