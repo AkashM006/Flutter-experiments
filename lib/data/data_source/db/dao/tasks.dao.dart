@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:sample/data/data_source/db/database.dart';
 import 'package:sample/data/data_source/db/schema/tasks.schema.dart';
 import 'package:sample/domain/task.model.dart';
-import 'package:sample/utils/errors.dart';
+import 'package:sample/utils/classes/errors.dart';
 
 part 'tasks.dao.g.dart';
 
@@ -18,12 +18,13 @@ class TasksDao extends DatabaseAccessor<AppDatabase> with _$TasksDaoMixin {
     return await (select(tasks)).get();
   }
 
+  Future<Task> getTask(int id) async {
+    return await (select(tasks)..where((tbl) => tbl.id.equals(id))).getSingle();
+  }
+
   Future<void> addTask(TaskModel task) async {
     try {
       await into(tasks).insert(TasksCompanion(
-        id: const Value(
-          -1,
-        ), // comment this to test error case, how to throw it and handle it
         title: Value(task.title),
         description: Value(task.description),
       ));
@@ -36,6 +37,39 @@ class TasksDao extends DatabaseAccessor<AppDatabase> with _$TasksDaoMixin {
         throw DataMigrationError(fields: errorFields);
       }
       rethrow;
+    }
+  }
+
+  Future<void> updateTask(TaskModel newTask) async {
+    try {
+      final result = await (update(tasks)
+            ..where((tbl) => tbl.id.equals(newTask.id)))
+          .write(
+        TasksCompanion(
+          title: Value(newTask.title),
+          description: Value(newTask.description),
+        ),
+      );
+      if (result == 0) {
+        throw const AppError(
+          message: "Unable to update the task. Please try again later",
+        );
+      }
+    } catch (e) {
+      if (e is AppError) rethrow;
+      throw const AppError(
+        message: "Unable to update the task. Please try again later",
+      );
+    }
+  }
+
+  Future<void> removeTask(int id) async {
+    try {
+      (delete(tasks)..where((tbl) => tbl.id.equals(id))).go();
+    } catch (error) {
+      throw const AppError(
+        message: "Unable to delete your task it may not exist. Please check",
+      );
     }
   }
 }
