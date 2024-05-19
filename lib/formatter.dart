@@ -61,10 +61,9 @@ class IntegerFormatter extends TextInputFormatter {
     final isCursorAtTheEnd =
         newValueText.length == newValue.selection.baseOffset;
 
-    // The character can be added to the last
+    // The character is added to the last
     if (isCursorAtTheEnd) {
-      final String formatted =
-          currencyFormatter.format(int.parse(newValueText.replaceAll(',', '')));
+      final String formatted = formatCurrencyForTextFormatting(newValueText);
       return TextEditingValue(
         text: formatted,
         selection: TextSelection.collapsed(offset: formatted.length),
@@ -73,8 +72,7 @@ class IntegerFormatter extends TextInputFormatter {
 
     // or in the start
     if (newValue.selection.baseOffset <= 1) {
-      final String formatted =
-          currencyFormatter.format(int.parse(newValueText.replaceAll(',', '')));
+      final String formatted = formatCurrencyForTextFormatting(newValueText);
       return TextEditingValue(
         text: formatted,
         selection:
