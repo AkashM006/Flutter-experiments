@@ -6,6 +6,10 @@ final currencyFormatter = NumberFormat("#,##,###");
 
 final DateFormat _dateFormatter = DateFormat('dd/MM/yyyy');
 
+final multiplePeriodsRegex = RegExp(r'\.');
+
+final commaRegex = RegExp(',');
+
 String getFormattedDate(DateTime date) {
   return _dateFormatter.format(date);
 }
@@ -22,16 +26,21 @@ String undoFormatting(String value) {
   return value.replaceAll(',', '');
 }
 
+int commaCount(String text) {
+  return commaRegex.allMatches(text).length;
+}
+
+String formatCurrencyForTextFormatting(String num) {
+  return currencyFormatter.format(int.parse(num.replaceAll(',', '')));
+}
+
 class IntegerFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    final oldReturnValue = TextEditingValue(
-      text: oldValue.text,
-      selection: TextSelection.collapsed(offset: oldValue.text.length),
-    );
+    final oldReturnValue = oldValue;
 
     final newValueText = newValue.text.replaceAll(',', '');
 
@@ -41,10 +50,63 @@ class IntegerFormatter extends TextInputFormatter {
       return oldReturnValue;
     }
 
-    final String formatted = currencyFormatter.format(int.parse(newValueText));
+    return _formatInt(newValue, oldValue);
+  }
+
+  TextEditingValue _formatInt(
+    TextEditingValue newValue,
+    TextEditingValue oldValue,
+  ) {
+    final newValueText = newValue.text;
+    final isCursorAtTheEnd =
+        newValueText.length == newValue.selection.baseOffset;
+
+    // The character can be added to the last
+    if (isCursorAtTheEnd) {
+      final String formatted =
+          currencyFormatter.format(int.parse(newValueText.replaceAll(',', '')));
+      return TextEditingValue(
+        text: formatted,
+        selection: TextSelection.collapsed(offset: formatted.length),
+      );
+    }
+
+    // or in the start
+    if (newValue.selection.baseOffset <= 1) {
+      final String formatted =
+          currencyFormatter.format(int.parse(newValueText.replaceAll(',', '')));
+      return TextEditingValue(
+        text: formatted,
+        selection:
+            TextSelection.collapsed(offset: newValue.selection.baseOffset),
+      );
+    }
+
+    // or in the middle
+    final digitAddedAt = newValue.selection.baseOffset;
+    final String formatted = formatCurrencyForTextFormatting(newValueText);
+    final oldFormattedValue = formatCurrencyForTextFormatting(oldValue.text);
+
+    if (formatted == oldFormattedValue) {
+      return TextEditingValue(
+        text: formatted,
+        selection: TextSelection.collapsed(
+          offset: newValue.selection.baseOffset,
+        ),
+      );
+    }
+
+    final oldValueCommaCount = commaCount(
+      oldFormattedValue.substring(0, oldValue.selection.baseOffset),
+    );
+    final newValueCommaCount = commaCount(formatted.substring(0, digitAddedAt));
+
     return TextEditingValue(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
+      selection: TextSelection.collapsed(
+        offset: newValue.selection.baseOffset +
+            (newValueCommaCount - oldValueCommaCount),
+      ),
     );
   }
 }
@@ -71,7 +133,7 @@ class DoubleFormatter extends TextInputFormatter {
     }
 
     bool hasMultiplePeriods =
-        RegExp(r'\.').allMatches(newValue.text).length > 1;
+        multiplePeriodsRegex.allMatches(newValue.text).length > 1;
 
     if (hasMultiplePeriods) {
       return _formatMultipleCommas(newValue, oldValue);
