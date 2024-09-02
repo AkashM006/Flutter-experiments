@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sample/timer.model.dart';
-import 'package:sample/timer.util.dart';
-import 'package:sample/widgets/blinking_text.widget.dart';
+import 'package:sample/data/timer.model.dart';
+import 'package:sample/core/timer.util.dart';
+import 'package:sample/presentation/widgets/blinking_text.widget.dart';
 
 class TimerWidget extends StatefulWidget {
   final Duration time;
