@@ -1,12 +1,15 @@
 import 'dart:async';
 
+import 'package:sample/domain/timer.entity.dart';
+
 const intervalTime = Duration(milliseconds: 16);
 
-class TimerModel {
+class TimerModel extends TimerEntity {
   Timer? _timer;
   Duration _time;
   final Duration _init;
   DateTime _lastUpdated;
+  bool _isRunning = false;
 
   final StreamController<Duration> _streamController =
       StreamController<Duration>.broadcast();
@@ -22,9 +25,15 @@ class TimerModel {
     );
   }
 
+  @override
   Stream<Duration> get time => _streamController.stream;
 
+  @override
+  bool get isRunning => _isRunning;
+
+  @override
   void start() {
+    if (!_isRunning) _isRunning = true;
     _lastUpdated = DateTime.now();
     _timer = Timer.periodic(
       intervalTime,
@@ -38,14 +47,18 @@ class TimerModel {
     );
   }
 
+  @override
   void pause() {
+    if (_isRunning) _isRunning = false;
     _timer?.cancel();
   }
 
+  @override
   void dispose() {
     _streamController.close();
   }
 
+  @override
   void reset() {
     pause();
     _streamController.sink.add(_init);

@@ -16,12 +16,12 @@ class App extends StatelessWidget {
           TimerWidget(
             time: zeroSecond,
           ),
-          SizedBox(
-            height: 20,
-          ),
-          TimerWidget(
-            time: zeroSecond,
-          ),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // TimerWidget(
+          //   time: zeroSecond,
+          // ),
         ],
       )),
     );

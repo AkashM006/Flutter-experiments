@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sample/presentation/app.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +23,9 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.lightBlue, brightness: Brightness.dark),
+          seedColor: Colors.lightBlue,
+          brightness: Brightness.dark,
+        ),
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
