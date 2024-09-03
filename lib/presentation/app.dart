@@ -10,20 +10,27 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TimerWidget(
-            time: zeroSecond,
-          ),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // TimerWidget(
-          //   time: zeroSecond,
-          // ),
-        ],
-      )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TimerWidget(
+              time: zeroSecond,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TimerWidget(
+              time: zeroSecond,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TimerWidget(
+              time: zeroSecond,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -11,8 +11,8 @@ class TimerModel extends TimerEntity {
   DateTime _lastUpdated;
   bool _isRunning = false;
 
-  final StreamController<Duration> _streamController =
-      StreamController<Duration>.broadcast();
+  final StreamController<TimerModel> _streamController =
+      StreamController<TimerModel>.broadcast();
 
   TimerModel(Duration time)
       : _lastUpdated = DateTime.now(),
@@ -20,16 +20,19 @@ class TimerModel extends TimerEntity {
         _time = time {
     Timer.run(
       () {
-        _streamController.sink.add(_time);
+        _streamController.sink.add(this);
       },
     );
   }
 
   @override
-  Stream<Duration> get time => _streamController.stream;
+  bool get isRunning => _isRunning;
 
   @override
-  bool get isRunning => _isRunning;
+  Duration get time => _time;
+
+  @override
+  Stream<TimerEntity> get timer => _streamController.stream;
 
   @override
   void start() {
@@ -42,7 +45,7 @@ class TimerModel extends TimerEntity {
 
         _time += now.difference(_lastUpdated);
         _lastUpdated = now;
-        _streamController.sink.add(_time);
+        _streamController.sink.add(this);
       },
     );
   }
@@ -51,6 +54,7 @@ class TimerModel extends TimerEntity {
   void pause() {
     if (_isRunning) _isRunning = false;
     _timer?.cancel();
+    _streamController.sink.add(this);
   }
 
   @override
@@ -61,7 +65,7 @@ class TimerModel extends TimerEntity {
   @override
   void reset() {
     pause();
-    _streamController.sink.add(_init);
     _time = _init;
+    _streamController.sink.add(this);
   }
 }

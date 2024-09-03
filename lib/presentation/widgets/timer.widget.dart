@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sample/core/timer.util.dart';
+import 'package:sample/domain/timer.entity.dart';
 import 'package:sample/presentation/provider/timer.provider.dart';
 import 'package:sample/presentation/widgets/blinking_text.widget.dart';
 // import 'package:sample/data/timer.model.dart';
@@ -138,23 +139,22 @@ class TimerWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final timer = ref.watch(timerProvider(time));
-    final isPlaying = timer.isRunning;
+    final timerObject = ref.watch(timerProvider(time));
 
-    void onPlayOrPause() {
-      if (isPlaying) {
+    void onPlayOrPause(TimerEntity timer) {
+      if (timer.isRunning) {
         timer.pause();
       } else {
         timer.start();
       }
     }
 
-    void onReset() {
+    void onReset(TimerEntity timer) {
       timer.reset();
     }
 
     return StreamBuilder(
-      stream: timer.time,
+      stream: timerObject.timer,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Center(
@@ -186,8 +186,15 @@ class TimerWidget extends ConsumerWidget {
           );
         }
 
+        final timerData = snapshot.data!;
+
+        final time = timerData.time;
+        final isRunning = timerData.isRunning;
+
+        final hasStarted = time.inMicroseconds != 0;
+
         final textWidget = Text(
-          formatDuration(snapshot.data!),
+          formatDuration(timerData.time),
           style: Theme.of(context).textTheme.displayLarge,
           textAlign: TextAlign.center,
         );
@@ -195,7 +202,7 @@ class TimerWidget extends ConsumerWidget {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            isPlaying || snapshot.data!.inSeconds == 0
+            isRunning || time.inSeconds == 0
                 ? textWidget
                 : BlinkingText(child: textWidget),
             const SizedBox(
@@ -206,19 +213,19 @@ class TimerWidget extends ConsumerWidget {
               children: [
                 IconButton.filled(
                   iconSize: 50,
-                  onPressed: onPlayOrPause,
+                  onPressed: () => onPlayOrPause(timerObject),
                   icon: Icon(
-                    isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                    isRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
                   ),
                 ),
-                if (!isPlaying && snapshot.data!.inSeconds != 0)
+                if (!isRunning && hasStarted)
                   const SizedBox(
                     width: 20,
                   ),
-                if (!isPlaying && snapshot.data!.inSeconds != 0)
+                if (!isRunning && hasStarted)
                   IconButton.outlined(
                     iconSize: 50,
-                    onPressed: onReset,
+                    onPressed: () => onReset(timerData),
                     icon: const Icon(Icons.undo_rounded),
                   )
               ],

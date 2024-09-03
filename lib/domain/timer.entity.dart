@@ -1,6 +1,8 @@
 abstract class TimerEntity {
-  Stream<Duration> get time;
+  Stream<TimerEntity> get timer;
   bool get isRunning;
+  Duration get time;
+
   void start();
   void pause();
   void dispose();
