@@ -14,7 +14,7 @@ class TimerModel extends TimerEntity {
   final StreamController<TimerModel> _streamController =
       StreamController<TimerModel>.broadcast();
 
-  TimerModel(Duration time)
+  TimerModel(super.time)
       : _lastUpdated = DateTime.now(),
         _init = time,
         _time = time {
