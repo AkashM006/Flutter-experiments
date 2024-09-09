@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:sample/presentation/app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sample/core/sp.util.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final sp = await SharedPreferences.getInstance();
+
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      overrides: [
+        spProvider.overrideWith(
+          (ref) {
+            return sp;
+          },
+        )
+      ],
+      child: const MyApp(),
     ),
   );
 }
