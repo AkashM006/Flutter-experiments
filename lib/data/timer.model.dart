@@ -68,4 +68,16 @@ class TimerModel extends TimerEntity {
     _time = _init;
     _streamController.sink.add(this);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'duration': _time.inMilliseconds,
+    };
+  }
+
+  factory TimerModel.fromJson(Map<String, dynamic> json) {
+    return TimerModel(
+      Duration(milliseconds: json['duration'] as int? ?? 0),
+    );
+  }
 }
