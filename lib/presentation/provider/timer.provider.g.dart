@@ -6,7 +6,7 @@ part of 'timer.provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$timerHash() => r'0c10d69e2151ea538900808b2a834de0f9cf5127';
+String _$timerHash() => r'13ba73f5a6db3b3e628c3c7f3184609dbd9ac0af';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,16 +29,24 @@ class _SystemHash {
   }
 }
 
-/// See also [timer].
-@ProviderFor(timer)
+abstract class _$Timer extends BuildlessAutoDisposeNotifier<TimerEntity> {
+  late final Duration time;
+
+  TimerEntity build(
+    Duration time,
+  );
+}
+
+/// See also [Timer].
+@ProviderFor(Timer)
 const timerProvider = TimerFamily();
 
-/// See also [timer].
+/// See also [Timer].
 class TimerFamily extends Family<TimerEntity> {
-  /// See also [timer].
+  /// See also [Timer].
   const TimerFamily();
 
-  /// See also [timer].
+  /// See also [Timer].
   TimerProvider call(
     Duration time,
   ) {
@@ -71,16 +79,14 @@ class TimerFamily extends Family<TimerEntity> {
   String? get name => r'timerProvider';
 }
 
-/// See also [timer].
-class TimerProvider extends AutoDisposeProvider<TimerEntity> {
-  /// See also [timer].
+/// See also [Timer].
+class TimerProvider
+    extends AutoDisposeNotifierProviderImpl<Timer, TimerEntity> {
+  /// See also [Timer].
   TimerProvider(
     Duration time,
   ) : this._internal(
-          (ref) => timer(
-            ref as TimerRef,
-            time,
-          ),
+          () => Timer()..time = time,
           from: timerProvider,
           name: r'timerProvider',
           debugGetCreateSourceHash:
@@ -105,13 +111,20 @@ class TimerProvider extends AutoDisposeProvider<TimerEntity> {
   final Duration time;
 
   @override
-  Override overrideWith(
-    TimerEntity Function(TimerRef provider) create,
+  TimerEntity runNotifierBuild(
+    covariant Timer notifier,
   ) {
+    return notifier.build(
+      time,
+    );
+  }
+
+  @override
+  Override overrideWith(Timer Function() create) {
     return ProviderOverride(
       origin: this,
       override: TimerProvider._internal(
-        (ref) => create(ref as TimerRef),
+        () => create()..time = time,
         from: from,
         name: null,
         dependencies: null,
@@ -123,7 +136,7 @@ class TimerProvider extends AutoDisposeProvider<TimerEntity> {
   }
 
   @override
-  AutoDisposeProviderElement<TimerEntity> createElement() {
+  AutoDisposeNotifierProviderElement<Timer, TimerEntity> createElement() {
     return _TimerProviderElement(this);
   }
 
@@ -141,12 +154,13 @@ class TimerProvider extends AutoDisposeProvider<TimerEntity> {
   }
 }
 
-mixin TimerRef on AutoDisposeProviderRef<TimerEntity> {
+mixin TimerRef on AutoDisposeNotifierProviderRef<TimerEntity> {
   /// The parameter `time` of this provider.
   Duration get time;
 }
 
-class _TimerProviderElement extends AutoDisposeProviderElement<TimerEntity>
+class _TimerProviderElement
+    extends AutoDisposeNotifierProviderElement<Timer, TimerEntity>
     with TimerRef {
   _TimerProviderElement(super.provider);
 

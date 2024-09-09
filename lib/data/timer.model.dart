@@ -11,6 +11,8 @@ class TimerModel extends TimerEntity {
   DateTime _lastUpdated;
   bool _isRunning = false;
 
+  static const String key = 'time';
+
   final StreamController<TimerModel> _streamController =
       StreamController<TimerModel>.broadcast();
 

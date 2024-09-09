@@ -14,6 +14,11 @@ class TimerRepositoryImpl extends TimerRepository {
   TimerModel getTimer(Duration initialDuration) {
     return _timerService.getTimerModel(initialDuration);
   }
+
+  @override
+  void persistTimer() {
+    return _timerService.persistTimer();
+  }
 }
 
 @riverpod

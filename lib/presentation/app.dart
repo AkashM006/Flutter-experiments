@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sample/presentation/widgets/background_status.widget.dart';
 import 'package:sample/presentation/widgets/timer.widget.dart';
 
 const zeroSecond = Duration(seconds: 0);
@@ -16,18 +17,7 @@ class App extends StatelessWidget {
             TimerWidget(
               time: zeroSecond,
             ),
-            SizedBox(
-              height: 20,
-            ),
-            TimerWidget(
-              time: zeroSecond,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TimerWidget(
-              time: zeroSecond,
-            ),
+            BackgroundStatusWidget(),
           ],
         ),
       ),
